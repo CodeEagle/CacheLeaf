@@ -4,12 +4,15 @@ osx_image: xcode8
 
 env:
   matrix:
+    - LC_CTYPE=en_US.UTF-8
+    - LANG=en_US.UTF-8
     - TEST_TYPE=iOS
     - TEST_TYPE=macOS
 -before_install:
  - |
-    gem install xcpretty -N --no-ri --no-rdoc
- 
+    brew install carthage
+    carthage update
+
 script:
 - |
     if [ "$TEST_TYPE" = iOS ]; then
@@ -25,4 +28,3 @@ after_success:
       bash <(curl -s https://codecov.io/bash)
     fi
     sleep 10
-    
