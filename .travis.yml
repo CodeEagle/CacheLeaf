@@ -20,7 +20,7 @@ before_install:
     - brew update
     - brew outdated carthage || brew upgrade carthage
 before_script:
-    - carthage bootstrap --no-build
+    - carthage bootstrap
 script:
 
   # Build Framework in ReleaseTest and Run Tests if specified
