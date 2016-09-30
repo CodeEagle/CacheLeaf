@@ -8,11 +8,10 @@ env:
     - TEST_TYPE=macOS
 before_install:
 - |
-   brew update
-   brew upgrade xctool
    brew install carthage
 before_script:
 - |
+  gem install xcpretty -N --no-ri --no-rdoc
   if [ "$TEST_TYPE" = iOS ]; then
   carthage update --platform ios
   elif [ "$TEST_TYPE" = macOS ]; then

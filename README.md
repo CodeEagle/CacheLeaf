@@ -1,6 +1,8 @@
 <center> ![Rem](./CacheLeaf.png)</center>
 [![Build Status](https://travis-ci.org/CodeEagle/CacheLeaf.svg?branch=master)](https://travis-ci.org/CodeEagle/CacheLeaf)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/CodeEagle/CacheLeaf/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/CodeEagle/CacheLeaf.svg)](https://github.com/CodeEagle/CacheLeaf/releases)
 
 <center>CacheLeaf</center>
 ---
