@@ -11,16 +11,14 @@ before_install:
   - brew outdated carthage || brew upgrade carthage
   - gem install xcpretty -N --no-ri --no-rdoc
 before_script:
-- |
-  if [ "$TEST_TYPE" = iOS ]; then
-  carthage update --platform ios
-  elif [ "$TEST_TYPE" = macOS ]; then
-  carthage update --platform osx
-  fi
+  - if [ "$TEST_TYPE" = iOS ]; then
+      carthage update --platform ios
+    elif [ "$TEST_TYPE" = macOS ]; then
+      carthage update --platform osx
+    fi
 
 script:
-- |
-    if [ "$TEST_TYPE" = iOS ]; then
+    - if [ "$TEST_TYPE" = iOS ]; then
       set -o pipefail
       xcodebuild clean test -project CacheLeaf.xcodeproj -scheme CacheLeaf -destination "platform=iOS Simulator,name=iPhone 6 Plus" -enableCodeCoverage YES | xcpretty
     elif [ "$TEST_TYPE" = macOS ]; then
@@ -28,8 +26,7 @@ script:
       xcodebuild clean test -project CacheLeaf.xcodeproj -scheme CacheLeaf-macOS -sdk macosx -enableCodeCoverage YES | xcpretty
     fi
 after_success:
-- |
-    if [ "$TEST_TYPE" = iOS ] || [ "$TEST_TYPE" = macOS ] then
+    - if [ "$TEST_TYPE" = iOS ] || [ "$TEST_TYPE" = macOS ] then
       bash <(curl -s https://codecov.io/bash)
     fi
-    sleep 10
+    - sleep 10
