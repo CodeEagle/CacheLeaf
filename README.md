@@ -11,12 +11,14 @@ iOS network middleware framework for handling request result cache, base on Alam
 Requirements
 ---
 iOS 9.0+ / macOS 10.11+
+
 Xcode 8.0+
+
 Swift 3.0+
 
 Dependencies
 ---
-[Alamofire 4.0+](https://github.com/Alamofire/Alamofire)
+[Alamofire 4.0.1+](https://github.com/Alamofire/Alamofire)
 
 Installation
 ---
@@ -46,7 +48,9 @@ Usage
 ```
 Donations
 ---
+<p align="center">
 <img src="./donate.jpg" width=320/>
+</p>
 License
 ---
 CacheLeaf is released under the MIT license. See LICENSE for details.
