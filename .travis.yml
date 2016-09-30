@@ -4,14 +4,14 @@ osx_image: xcode8
 
 env:
   matrix:
-    - LC_CTYPE=en_US.UTF-8
-    - LANG=en_US.UTF-8
     - TEST_TYPE=iOS
     - TEST_TYPE=macOS
 -before_install:
- - |
-    brew install carthage
-    carthage update
+  - brew update
+  - brew upgrade xctool
+  - brew install carthage
+before_script:
+  - carthage bootstrap
 
 script:
 - |
