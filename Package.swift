@@ -3,9 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "CacheLeaf",
-    targets: [],
     dependencies: [
-        .Package(url: "https://github.com/Alamofire/Alamofire.git",
-                 majorVersion: 4.0.1)
+        .Package(url: "https://github.com/Alamofire/Alamofire.git", versions: Version(4, 0, 1)..<Version(5, 0, 0))
     ]
 )
