@@ -3,8 +3,9 @@
 <br>
 CacheLeaf
 <br>
-iOS network middleware framework for handling request result cache, base on Alamofire
+<pre align="center">iOS network middleware framework for handling request result cache, base on Alamofire</pre>
 </p>
+
 [![Swift](https://img.shields.io/badge/Swift-3.0-green.svg)](https://github.com/apple/swift) [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/CodeEagle/CacheLeaf/master/LICENSE) [![Build Status](https://travis-ci.org/CodeEagle/CacheLeaf.svg?branch=master)](https://travis-ci.org/CodeEagle/CacheLeaf)
 ---
 
@@ -48,9 +49,11 @@ Usage
 ```
 Donations
 ---
+<pre>
 <p align="center">
 <img src="./donate.jpg" width=320/>
 </p>
+</pre>
 License
 ---
 CacheLeaf is released under the MIT license. See LICENSE for details.
