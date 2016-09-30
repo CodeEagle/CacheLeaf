@@ -36,11 +36,12 @@ public extension URLRequestConvertible {
      /// - parameter cache:  duraton for caching result
      /// - parameter ignoreExpires: return cache ignore expires
      /// - parameter requestAnyway: do request no matter has cache or not
-     ///  - parameter log: print response
+     /// - parameter log: print response
      /// - parameter canCache: a closure return Bool to judge whether the result should cache or not
      /// - parameter completion: requet Done
      ///
      /// - returns: DataRequest?
+    
     @discardableResult public func execute(cache maxAge: TimeInterval = 0, ignoreExpires: Bool = false, requestAnyway: Bool = true, log: Bool = false, canCache closure: ((_ result: Result<Data>) -> Bool)? = nil, completion handler: @escaping (_ result: Result<Data>) -> Void = { _ in }) -> DataRequest? {
         guard var urlReq = urlRequest else { return nil }
         urlReq.ll_max_age = maxAge
