@@ -16,7 +16,7 @@ public extension URLConvertible {
     /// - parameter cache:  duraton for caching result
     /// - parameter ignoreExpires: return cache ignore expires
     /// - parameter requestAnyway: do request no matter has cache or not
-    ///  - parameter log: print response
+    /// - parameter log: print response
     /// - parameter canCache: a closure return Bool to judge whether the result should cache or not
     /// - parameter completion: requet Done
     ///
