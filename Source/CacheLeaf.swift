@@ -49,7 +49,7 @@ public extension URLRequestConvertible {
         let req = request(urlReq)
         func goGetData() {
             req.response { (result: DefaultDataResponse) in
-                if log { print("🚦",result.response) }
+                if log, let resp = result.response { print("🚦", resp) }
                 var dataHash = 0
                 if let err = result.error { handler(.failure(err)) }
                 else if let resp = result.response, let data = result.data, let req = result.request {
