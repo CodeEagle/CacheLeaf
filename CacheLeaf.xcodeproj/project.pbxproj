@@ -54,6 +54,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1606FA291E0264E9004B67F2 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		1626D3821D9619F8000FC065 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		1626D3841D961A0C000FC065 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
 		1626D3861D9623DC000FC065 /* Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
@@ -123,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				1626D38E1D962E18000FC065 /* Alamofire.framework */,
+				1606FA291E0264E9004B67F2 /* Cartfile */,
 				16AB2C491D8FDB0C00EA99B3 /* Tests */,
 				16AB2C481D8FDB0300EA99B3 /* Source */,
 				16AB2C4A1D8FDB1D00EA99B3 /* Stuff */,
