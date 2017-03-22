@@ -21,11 +21,11 @@ public extension URLConvertible {
     /// - parameter completion: requet Done
     ///
     /// - returns: DataRequest?
-    @discardableResult public func execute(cache maxAge: TimeInterval = 0, ignoreExpires: Bool = false, requestAnyway: Bool = true, requestWithoutCacheTrigger callBack: @escaping () -> Void = { }, log: Bool = false, canCache closure: ((_ result: Result<Data>) -> Bool)? = nil, completion handler: @escaping (_ result: Result<Data>) -> Void = { _ in }) -> DataRequest? {
+    @discardableResult public func execute(cache maxAge: TimeInterval = 0, ignoreExpires: Bool = false, requestAnyway: Bool = true, requestWithoutCacheTrigger callBack: @escaping () -> Void = { }, log: Bool = false, sessionManager: SessionManager = SessionManager.default, canCache closure: ((_ result: Result<Data>) -> Bool)? = nil, completion handler: @escaping (_ result: Result<Data>) -> Void = { _ in }) -> DataRequest? {
         do {
             let url = try asURL()
             let req = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30)
-            return req.execute(cache: maxAge, ignoreExpires: ignoreExpires, requestAnyway: requestAnyway, requestWithoutCacheTrigger: callBack, log: log, canCache: closure, completion: handler)
+            return req.execute(cache: maxAge, ignoreExpires: ignoreExpires, requestAnyway: requestAnyway, requestWithoutCacheTrigger: callBack, log: log, sessionManager: sessionManager, canCache: closure, completion: handler)
         } catch { return nil }
     }
 }
@@ -42,11 +42,11 @@ public extension URLRequestConvertible {
      ///
      /// - returns: DataRequest?
     
-    @discardableResult public func execute(cache maxAge: TimeInterval = 0, ignoreExpires: Bool = false, requestAnyway: Bool = true, requestWithoutCacheTrigger callBack: @escaping () -> Void = { }, log: Bool = false, canCache closure: ((_ result: Result<Data>) -> Bool)? = nil, completion handler: @escaping (_ result: Result<Data>) -> Void = { _ in }) -> DataRequest? {
+    @discardableResult public func execute(cache maxAge: TimeInterval = 0, ignoreExpires: Bool = false, requestAnyway: Bool = true, requestWithoutCacheTrigger callBack: @escaping () -> Void = { }, log: Bool = false, sessionManager: SessionManager = SessionManager.default, canCache closure: ((_ result: Result<Data>) -> Bool)? = nil, completion handler: @escaping (_ result: Result<Data>) -> Void = { _ in }) -> DataRequest? {
         guard var urlReq = urlRequest else { return nil }
         urlReq.ll_max_age = maxAge
         var cacheHash = 0
-        let req = request(urlReq)
+        let req = sessionManager.request(urlReq)
         func goGetData() {
             req.response { (result: DefaultDataResponse) in
                 if log, let resp = result.response { print("🚦", resp) }
