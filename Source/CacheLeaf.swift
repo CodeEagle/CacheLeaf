@@ -68,8 +68,12 @@ public extension URLRequestConvertible {
                 goGetData()
             } else {
                 if let data = urlReq.ll_lastCachedResponseDataIgnoreExpires(ignoreExpires) {
-                    cacheHash = data.description.hash
-                    DispatchQueue.main.async { handler(.success(data)) }
+                    if closure?(Result.success(data)) == true {
+                        cacheHash = data.description.hash
+                        DispatchQueue.main.async {
+                            handler(.success(data))
+                        }
+                    }
                     if requestAnyway && ignoreExpires &&
                         urlReq.ll_lastCachedResponseDataIgnoreExpires(false) == nil {
                         goGetData()
