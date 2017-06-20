@@ -7,9 +7,7 @@
 //
 
 import Foundation
-#if !PACKING_FOR_APPSTORE
-    import Alamofire
-#endif
+import Alamofire
 public extension URLConvertible {
     /// execute url for data
     ///

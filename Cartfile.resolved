@@ -1,1 +1,1 @@
-git "git@github.com:Alamofire/Alamofire.git" "4.4.0"
+git "file:///MXProject/Third-Party/Alamofire" "4.5.0"

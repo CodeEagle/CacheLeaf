@@ -1,0 +1,6 @@
+defaults:
+    configuration: Release
+skips:
+
+repo-overrides:
+    Alamofire: file:///MXProject/Third-Party/Alamofire
