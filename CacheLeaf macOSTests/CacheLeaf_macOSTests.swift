@@ -2,12 +2,12 @@
 //  CacheLeaf_macOSTests.swift
 //  CacheLeaf macOSTests
 //
-//  Created by LawLincoln on 2016/9/19.
-//  Copyright © 2016年 LawLincoln. All rights reserved.
+//  Created by lincolnlaw on 2017/7/13.
+//  Copyright © 2017年 lincolnlaw. All rights reserved.
 //
 
 import XCTest
-@testable import CacheLeaf
+@testable import CacheLeaf_macOS
 
 class CacheLeaf_macOSTests: XCTestCase {
     

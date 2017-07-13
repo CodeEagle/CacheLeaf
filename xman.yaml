@@ -1,0 +1,24 @@
+# project: "path/to/your/*.xcodeproj" # if not config, will get first xcodeproj in directory
+# carthage_folder: "./Carthage" # if not config, will be the `Carthage` folder in directory
+framework_copy_tool: "/usr/local/bin/punic" # if not config, will using `/usr/local/bin/carthage`
+# deployment_target: "10." # for project
+platform: Mac
+carthage_frameworks: # custom framework array
+  - Alamofire # framework name in `Carthage/Build/iOS` without `.framework`
+target_configuration:
+  - CacheLeaf: # target name
+      platform: iOS
+      deployment_target: "9.0" # for target
+      common_frameworks_key: "carthage_frameworks" # custom framework key
+  - CacheLeafTests: # target name
+      platform: iOS
+      deployment_target: "9.0" # for target
+      common_frameworks_key: "carthage_frameworks" # custom framework key
+  - CacheLeaf macOS: # target name
+      platform: Mac
+      deployment_target: "10.11" # for target
+      common_frameworks_key: "carthage_frameworks" # custom framework key
+  - CacheLeaf macOSTests: # target name
+      platform: Mac
+      deployment_target: "10.11" # for target
+      common_frameworks_key: "carthage_frameworks" # custom framework key
