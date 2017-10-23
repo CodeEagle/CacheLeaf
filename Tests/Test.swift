@@ -43,6 +43,26 @@ class Test: XCTestCase {
             }
         }
     }
+    
+    func testExecutor() {
+        asyncTest { e in
+            let url = URL(string: "https://httpbin.org/")!
+            let req = URLRequest(url: url)
+//            req.execute(cache: 0, ignoreExpires: true, log: true, canCache: { _ in true }) { resp in
+//                print("😆", resp.isSuccess)
+//                e.fulfill()
+//            }
+            let executor: ((URLRequest, @escaping (URLRequest?, HTTPURLResponse?, Data?, Error?)-> Void) -> Void)? = { req, done in
+                URLSession.shared.dataTask(with: req, completionHandler: { (data, resp, error) in
+                    done(req, resp as? HTTPURLResponse, data, error)
+                }).resume()
+            }
+            req.execute(cache: 0, ignoreExpires: true, requestAnyway: true, executor: executor, completion: {  resp in
+                print("😆", resp.isSuccess)
+                e.fulfill()
+            })
+        }
+    }
 
     func testPerformanceExample() {
         asyncTest { e in

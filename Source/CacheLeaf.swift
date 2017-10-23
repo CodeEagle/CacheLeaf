@@ -19,7 +19,7 @@ public extension URLConvertible {
     /// - parameter completion: requet Done
     ///
     /// - returns: DataRequest?
-    @discardableResult public func execute(cache maxAge: TimeInterval = 0, ignoreExpires: Bool = false, requestAnyway: Bool = true, requestWithoutCacheTrigger callBack: @escaping () -> Void = {}, log: Bool = false, sessionManager: SessionManager = SessionManager.default, canCache closure: ((_ result: Result<Data>) -> Bool)? = nil, executor: ((URLRequest, (URLRequest?, HTTPURLResponse?, Data?, Error?)-> Void) -> Void)? = nil, completion handler: @escaping (_ result: Result<Data>) -> Void = { _ in }) -> DataRequest? {
+    @discardableResult public func execute(cache maxAge: TimeInterval = 0, ignoreExpires: Bool = false, requestAnyway: Bool = true, requestWithoutCacheTrigger callBack: @escaping () -> Void = {}, log: Bool = false, sessionManager: SessionManager = SessionManager.default, canCache closure: ((_ result: Result<Data>) -> Bool)? = nil, executor: ((URLRequest, @escaping (URLRequest?, HTTPURLResponse?, Data?, Error?)-> Void) -> Void)? = nil, completion handler: @escaping (_ result: Result<Data>) -> Void = { _ in }) -> DataRequest? {
         do {
             let url = try asURL()
             let req = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30)
@@ -41,7 +41,7 @@ public extension URLRequestConvertible {
     ///
     /// - returns: DataRequest?
 
-    @discardableResult public func execute(cache maxAge: TimeInterval = 0, ignoreExpires: Bool = false, requestAnyway: Bool = true, requestWithoutCacheTrigger callBack: @escaping () -> Void = {}, log: Bool = false, sessionManager: SessionManager = SessionManager.default, canCache closure: ((_ result: Result<Data>) -> Bool)? = nil, executor: ((URLRequest, (URLRequest?, HTTPURLResponse?, Data?, Error?)-> Void) -> Void)? = nil, completion handler: @escaping (_ result: Result<Data>) -> Void = { _ in }) -> DataRequest? {
+    @discardableResult public func execute(cache maxAge: TimeInterval = 0, ignoreExpires: Bool = false, requestAnyway: Bool = true, requestWithoutCacheTrigger callBack: @escaping () -> Void = {}, log: Bool = false, sessionManager: SessionManager = SessionManager.default, canCache closure: ((_ result: Result<Data>) -> Bool)? = nil, executor: ((URLRequest, @escaping (URLRequest?, HTTPURLResponse?, Data?, Error?)-> Void) -> Void)? = nil, completion handler: @escaping (_ result: Result<Data>) -> Void = { _ in }) -> DataRequest? {
         guard var urlReq = urlRequest else { return nil }
         urlReq.ll_max_age = maxAge
         var cacheHash = 0
