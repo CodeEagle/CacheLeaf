@@ -52,7 +52,7 @@ class Test: XCTestCase {
 //                print("😆", resp.isSuccess)
 //                e.fulfill()
 //            }
-            let executor: ((URLRequest, @escaping (URLRequest?, HTTPURLResponse?, Data?, Error?)-> Void) -> Void)? = { req, done in
+            let executor: CacheLeafRequestExecutor = { req, done in
                 URLSession.shared.dataTask(with: req, completionHandler: { (data, resp, error) in
                     done(req, resp as? HTTPURLResponse, data, error)
                 }).resume()
