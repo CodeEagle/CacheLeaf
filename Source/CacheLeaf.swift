@@ -19,11 +19,11 @@ public extension URLConvertible {
     /// - parameter completion: requet Done
     ///
     /// - returns: DataRequest?
-    @discardableResult public func execute(cache maxAge: TimeInterval = 0, ignoreExpires: Bool = false, requestAnyway: Bool = true, requestWithoutCacheTrigger callBack: @escaping () -> Void = {}, log: Bool = false, sessionManager: SessionManager = SessionManager.default, canCache closure: ((_ result: Result<Data>) -> Bool)? = nil, completion handler: @escaping (_ result: Result<Data>) -> Void = { _ in }) -> DataRequest? {
+    @discardableResult public func execute(cache maxAge: TimeInterval = 0, ignoreExpires: Bool = false, requestAnyway: Bool = true, requestWithoutCacheTrigger callBack: @escaping () -> Void = {}, log: Bool = false, sessionManager: SessionManager = SessionManager.default, canCache closure: ((_ result: Result<Data>) -> Bool)? = nil, executor: ((URLRequest, (URLRequest?, HTTPURLResponse?, Data?, Error?)-> Void) -> Void)? = nil, completion handler: @escaping (_ result: Result<Data>) -> Void = { _ in }) -> DataRequest? {
         do {
             let url = try asURL()
             let req = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30)
-            return req.execute(cache: maxAge, ignoreExpires: ignoreExpires, requestAnyway: requestAnyway, requestWithoutCacheTrigger: callBack, log: log, sessionManager: sessionManager, canCache: closure, completion: handler)
+            return req.execute(cache: maxAge, ignoreExpires: ignoreExpires, requestAnyway: requestAnyway, requestWithoutCacheTrigger: callBack, log: log, sessionManager: sessionManager, canCache: closure, executor: executor, completion: handler)
         } catch { return nil }
     }
 }
@@ -41,26 +41,46 @@ public extension URLRequestConvertible {
     ///
     /// - returns: DataRequest?
 
-    @discardableResult public func execute(cache maxAge: TimeInterval = 0, ignoreExpires: Bool = false, requestAnyway: Bool = true, requestWithoutCacheTrigger callBack: @escaping () -> Void = {}, log: Bool = false, sessionManager: SessionManager = SessionManager.default, canCache closure: ((_ result: Result<Data>) -> Bool)? = nil, completion handler: @escaping (_ result: Result<Data>) -> Void = { _ in }) -> DataRequest? {
+    @discardableResult public func execute(cache maxAge: TimeInterval = 0, ignoreExpires: Bool = false, requestAnyway: Bool = true, requestWithoutCacheTrigger callBack: @escaping () -> Void = {}, log: Bool = false, sessionManager: SessionManager = SessionManager.default, canCache closure: ((_ result: Result<Data>) -> Bool)? = nil, executor: ((URLRequest, (URLRequest?, HTTPURLResponse?, Data?, Error?)-> Void) -> Void)? = nil, completion handler: @escaping (_ result: Result<Data>) -> Void = { _ in }) -> DataRequest? {
         guard var urlReq = urlRequest else { return nil }
         urlReq.ll_max_age = maxAge
         var cacheHash = 0
-        let req = sessionManager.request(urlReq)
+        
+        var req: DataRequest? = nil
+        
         func goGetData() {
-            req.response { (result: DefaultDataResponse) in
-                if log, let resp = result.response { print("🚦", resp) }
-                var dataHash = 0
-                if let err = result.error { handler(.failure(err)) }
-                else if let resp = result.response, let data = result.data, let req = result.request {
-                    dataHash = data.description.hash
-                    let dat: Result<Data> = Result.success(data)
-                    if let cacheConfigClosure = closure { if cacheConfigClosure(dat) { req.ll_storeResponse(maxAge, resp: resp, data: data) } }
-                    else { req.ll_storeResponse(maxAge, resp: resp, data: data) }
-                    if dataHash != cacheHash && dataHash != 0 { DispatchQueue.main.async { handler(dat) } }
+            if let exe = executor {
+                exe(urlReq, { (request, response, data, error) in
+                    if log, let resp = response { print("🚦", resp) }
+                    var dataHash = 0
+                    if let err = error { handler(.failure(err)) }
+                    else if let resp = response, let data = data, let req = request {
+                        dataHash = data.description.hash
+                        let dat: Result<Data> = Result.success(data)
+                        if let cacheConfigClosure = closure { if cacheConfigClosure(dat) { req.ll_storeResponse(maxAge, resp: resp, data: data) } }
+                        else { req.ll_storeResponse(maxAge, resp: resp, data: data) }
+                        if dataHash != cacheHash && dataHash != 0 { DispatchQueue.main.async { handler(dat) } }
+                    }
+                })
+            } else {
+                req = sessionManager.request(urlReq)
+                req?.response { (result: DefaultDataResponse) in
+                    if log, let resp = result.response { print("🚦", resp) }
+                    var dataHash = 0
+                    if let err = result.error { handler(.failure(err)) }
+                    else if let resp = result.response, let data = result.data, let req = result.request {
+                        dataHash = data.description.hash
+                        let dat: Result<Data> = Result.success(data)
+                        if let cacheConfigClosure = closure { if cacheConfigClosure(dat) { req.ll_storeResponse(maxAge, resp: resp, data: data) } }
+                        else { req.ll_storeResponse(maxAge, resp: resp, data: data) }
+                        if dataHash != cacheHash && dataHash != 0 { DispatchQueue.main.async { handler(dat) } }
+                    }
                 }
+                req?.resume()
             }
-            req.resume()
         }
+        
+        
         DispatchQueue.global(qos: .userInteractive).async {
             if maxAge == 0 {
                 callBack()
